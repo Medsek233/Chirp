@@ -3,17 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chirp;
+use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 
-class ChirpController extends Controller
+class MyChirpController extends Controller
 {
 
 
     public function index()
     {
-        return view('chirps.index', [
-            'chirps' => Chirp::with('user')->latest()->get(),
+        return view('Mychirps.index', [
+            'Mychirps' => Chirp::with('user')->latest()->get(),
         ]);
     }
 
@@ -32,7 +33,7 @@ class ChirpController extends Controller
 
         $request->user()->chirps()->create($validated);
 
-        return redirect(route('chirps.index'));
+        return redirect(route('Mychirps.index'));
     }
 
 
@@ -45,42 +46,44 @@ class ChirpController extends Controller
     /**
      * @throws AuthorizationException
      */
-    public function edit(Chirp $chirp)
+    public function edit(Chirp $MyChirp)
     {
-        $this->authorize('update', $chirp);
 
-        return view('chirps.edit', [
-            'chirp' => $chirp,
+
+        return view('Mychirps.edit', [
+            'MyChirp' => $MyChirp,
         ]);
     }
 
 
     /**
      * @throws AuthorizationException
+     * @throws Exception
      */
-    public function update(Request $request, Chirp $chirp)
+    public function update(Request $request, Chirp $MyChirp)
     {
-        $this->authorize('update', $chirp);
+
 
         $validated = $request->validate([
             'message' => 'required|string|max:255',
         ]);
 
-        $chirp->update($validated);
+        $MyChirp->update($validated);
 
-        return redirect(route('chirps.index'));
+
+        return redirect(route('Mychirps.index'));
     }
 
 
     /**
      * @throws AuthorizationException
      */
-    public function destroy(Chirp $chirp)
+    public function destroy(Chirp $MyChirp)
     {
-        $this->authorize('delete', $chirp);
 
-        $chirp->delete();
 
-        return redirect(route('chirps.index'));
+        $MyChirp->delete();
+
+        return redirect(route('Mychirps.index'));
     }
 }

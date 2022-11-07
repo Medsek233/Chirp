@@ -53,7 +53,7 @@ class ChirpPolicy
      */
     public function update(User $user, Chirp $chirp): \Illuminate\Auth\Access\Response|bool
     {
-        return $chirp->user()->is($user);
+        return $chirp->user()->is(auth()->user());
     }
 
     /**

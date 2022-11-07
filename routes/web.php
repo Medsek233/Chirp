@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\ChirpController;
+use App\Http\Controllers\MyChirpController;
+use App\Http\Controllers\FriendChirpController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,8 +24,20 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
-Route::resource('chirps', ChirpController::class)
-    ->only(['index', 'store', 'edit', 'update', 'destroy'])
+Route::get('Mychirps',[MyChirpController::class,'index'])->name('Mychirps.index')
     ->middleware(['auth', 'verified']);
+Route::post('MyChirps',[MyChirpController::class,'store'])->name('Mychirps.store')
+    ->middleware(['auth', 'verified']);
+Route::get('MyChirps/{MyChirp}/edit',[MyChirpController::class,'edit'])->name('Mychirps.edit')
+    ->middleware(['auth', 'verified']);
+Route::patch('MyChirps/{MyChirp}',[MyChirpController::class,'update'])->name('Mychirps.update')
+    ->middleware(['auth', 'verified']);
+Route::delete('MyChirps/{MyChirp}',[MyChirpController::class,'destroy'])->name('Mychirps.destroy')
+    ->middleware(['auth', 'verified']);
+
+
+
+Route::get('Friends_chirps',[FriendChirpController::class,'myFriendsChirps'])
+    ->name('FriendsChirps');
 
 require __DIR__.'/auth.php';
