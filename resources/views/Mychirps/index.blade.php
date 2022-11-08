@@ -3,10 +3,10 @@
         <form method="POST" action="{{ route('Mychirps.store') }}">
             @csrf
             <textarea
-                name="message"
+                name="body"
                 placeholder="{{ __('What\'s on your mind?') }}"
                 class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-            >{{ old('message') }}</textarea>
+            >{{ old('body') }}</textarea>
             <x-input-error :messages="$errors->get('message')" class="mt-2" />
             <x-primary-button class="mt-4">{{ __('Chirp') }}</x-primary-button>
         </form>
@@ -14,10 +14,12 @@
         <div class="mt-6 bg-white shadow-sm  rounded-lg divide-y">
             @foreach ($Mychirps as $Mychirp)
                 @if ($Mychirp->user->is(auth()->user()))
-                <div class="p-6 flex space-x-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 -scale-x-100" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                    </svg>
+                <div class="p-6 flex items-center space-x-2">
+                    <img src="https://i.pravatar.cc/60?u={{ auth()->id() }}"
+                         alt=""
+                         width="60"
+                         height="20"
+                         class="rounded-full">
                     <div class="flex-1">
                         <div class="flex justify-between items-center">
                             <div>
@@ -55,11 +57,17 @@
                             @endif
 
                         </div>
-                        <p class="mt-4 text-lg text-gray-900">{{ $Mychirp->message }}</p>
+                        <p class="mt-4 text-lg text-gray-900">{{ $Mychirp->body }}</p>
                     </div>
+                </div>
+                <div >
+                    @foreach($Mychirp->comments as $comment)
+                        <x-comment-section :comment="$comment" />
+                    @endforeach
                 </div>
                 @endif
             @endforeach
+
 
         </div>
     </div>

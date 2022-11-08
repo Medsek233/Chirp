@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\MyChirpController;
 use App\Http\Controllers\FriendChirpController;
 use Illuminate\Support\Facades\Route;
@@ -34,8 +35,8 @@ Route::patch('MyChirps/{MyChirp}',[MyChirpController::class,'update'])->name('My
     ->middleware(['auth', 'verified']);
 Route::delete('MyChirps/{MyChirp}',[MyChirpController::class,'destroy'])->name('Mychirps.destroy')
     ->middleware(['auth', 'verified']);
-
-
+Route::post('Friends_chirps/{chirp}/comments',[CommentController::class,'store'])->name('Mycomment.store')
+->middleware('auth','verified');
 
 Route::get('Friends_chirps',[FriendChirpController::class,'myFriendsChirps'])
     ->name('FriendsChirps');

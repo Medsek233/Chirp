@@ -8,9 +8,8 @@ class FriendChirpController extends Controller
 {
     public function myFriendsChirps()
     {
-
         return view('FriendsChirps.index', [
-            'chirps' => Chirp::with('user')->latest()->paginate(5),
+            'chirps' => Chirp::with('user','comments')->where('user_id','<>',auth()->id())->paginate(6)
         ]);
     }
 

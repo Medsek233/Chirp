@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chirp;
+use App\Models\Comment;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
@@ -28,7 +29,7 @@ class MyChirpController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'message' => 'required|string|max:255',
+            'body' => 'required|string|max:255',
         ]);
 
         $request->user()->chirps()->create($validated);
@@ -39,7 +40,6 @@ class MyChirpController extends Controller
 
     public function show(Chirp $chirp)
     {
-        //
     }
 
 
@@ -65,7 +65,7 @@ class MyChirpController extends Controller
 
 
         $validated = $request->validate([
-            'message' => 'required|string|max:255',
+            'body' => 'required|string|max:255',
         ]);
 
         $MyChirp->update($validated);
