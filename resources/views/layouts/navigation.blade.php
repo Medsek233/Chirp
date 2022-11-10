@@ -21,6 +21,9 @@
                     <x-nav-link :href="route('FriendsChirps')" :active="request()->routeIs('FriendsChirps')">
                         {{ __('MyFriendsChirps') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('sendEmail.index')" :active="request()->routeIs('sendEmail.index')">
+                        {{ __('Send Email') }}
+                    </x-nav-link>
                 </div>
             </div>
 

@@ -3,15 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chirp;
-use App\Models\Comment;
+use App\Notifications\NewChirp;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 
 class MyChirpController extends Controller
 {
-
-
     public function index()
     {
         return view('Mychirps.index', [
@@ -19,14 +17,12 @@ class MyChirpController extends Controller
         ]);
     }
 
-
     public function create()
     {
         //
     }
 
-
-    public function store(Request $request)
+    public function store(Request $request, Chirp $chirp)
     {
         $validated = $request->validate([
             'body' => 'required|string|max:255',
@@ -34,27 +30,24 @@ class MyChirpController extends Controller
 
         $request->user()->chirps()->create($validated);
 
-        return redirect(route('Mychirps.index'));
-    }
+        event(new NewChirp($chirp));
 
+        return redirect(route('Mychirps.index'))->with('success');
+    }
 
     public function show(Chirp $chirp)
     {
     }
-
 
     /**
      * @throws AuthorizationException
      */
     public function edit(Chirp $MyChirp)
     {
-
-
         return view('Mychirps.edit', [
             'MyChirp' => $MyChirp,
         ]);
     }
-
 
     /**
      * @throws AuthorizationException
@@ -62,26 +55,20 @@ class MyChirpController extends Controller
      */
     public function update(Request $request, Chirp $MyChirp)
     {
-
-
         $validated = $request->validate([
             'body' => 'required|string|max:255',
         ]);
 
         $MyChirp->update($validated);
 
-
         return redirect(route('Mychirps.index'));
     }
-
 
     /**
      * @throws AuthorizationException
      */
     public function destroy(Chirp $MyChirp)
     {
-
-
         $MyChirp->delete();
 
         return redirect(route('Mychirps.index'));

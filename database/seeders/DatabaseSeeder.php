@@ -5,7 +5,6 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Chirp;
 use App\Models\Comment;
-use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -21,7 +20,5 @@ class DatabaseSeeder extends Seeder
     {
         Comment::factory()->create();
         Chirp::factory()->create();
-
-
     }
 }

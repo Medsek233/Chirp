@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Chirp;
-use App\Models\User;
 use App\Models\Comment;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CommentFactory extends Factory
@@ -16,7 +16,7 @@ class CommentFactory extends Factory
         return [
             'chirp_id' => Chirp::factory(),
             'user_id' => User::factory(),
-            'body' => $this->faker->text()
+            'body' => $this->faker->text(),
         ];
     }
 }
