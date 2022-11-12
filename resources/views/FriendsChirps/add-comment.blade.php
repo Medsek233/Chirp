@@ -1,7 +1,7 @@
 @props(['chirp'])
 @auth
     <div class=" flex flex-col p-6 ">
-        <form method="POST" action="{{route('Mycomment.store',$chirp)}}">
+        <form method="POST" action="{{route('Mycomment.store',$chirp->id)}}">
             @csrf
 
             <div class=" flex items-center">

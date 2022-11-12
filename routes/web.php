@@ -12,22 +12,17 @@ Route::view('/dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
-Route::get('Mychirps', [MyChirpController::class, 'index'])->name('Mychirps.index')
-    ->middleware(['auth', 'verified']);
-Route::post('MyChirps', [MyChirpController::class, 'store'])->name('Mychirps.store')
-    ->middleware(['auth', 'verified']);
-Route::get('MyChirps/{MyChirp}/edit', [MyChirpController::class, 'edit'])->name('Mychirps.edit')
-    ->middleware(['auth', 'verified']);
-Route::patch('MyChirps/{MyChirp}', [MyChirpController::class, 'update'])->name('Mychirps.update')
-    ->middleware(['auth', 'verified']);
-Route::delete('MyChirps/{MyChirp}', [MyChirpController::class, 'destroy'])->name('Mychirps.destroy')
-    ->middleware(['auth', 'verified']);
-Route::post('Friends_chirps/{chirp}/comments', [CommentController::class, 'store'])->name('Mycomment.store')
-->middleware('auth', 'verified');
-
+Route::middleware('auth', 'verified')->group(function () {
+    Route::get('Mychirps', [MyChirpController::class, 'index'])->name('Mychirps.index');
+    Route::post('MyChirps', [MyChirpController::class, 'store'])->name('Mychirps.store');
+    Route::get('MyChirps/{MyChirp}/edit', [MyChirpController::class, 'edit'])->name('Mychirps.edit');
+    Route::patch('MyChirps/{MyChirp}', [MyChirpController::class, 'update'])->name('Mychirps.update');
+    Route::delete('MyChirps/{MyChirp}', [MyChirpController::class, 'destroy'])->name('Mychirps.destroy');
+    Route::post('Friends_chirps/{chirp}/comments', [CommentController::class, 'store'])
+        ->name('Mycomment.store');
+});
 Route::get('Friends_chirps', [FriendChirpController::class, 'myFriendsChirps'])
     ->name('FriendsChirps');
-
 Route::get('send_Email', [SendEmailController::class, 'index'])
     ->name('sendEmail.index')
     ->middleware('auth', 'verified');
@@ -35,4 +30,4 @@ Route::get('send_Email', [SendEmailController::class, 'index'])
 Route::post('send_Email', [SendEmailController::class, 'create'])
     ->name('sendEmail.create')
     ->middleware('auth', 'verified');
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
