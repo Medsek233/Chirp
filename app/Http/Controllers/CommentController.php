@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Comment;
 use App\Notifications\ChirpCommented;
 use Auth;
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Notification;
@@ -35,9 +36,10 @@ class CommentController extends Controller
 
         $comment_body = $request->body;
         $comment_from=Auth::user()->name;
+        $comment=DB::table('comments')->where('user_id',request()->user()->id)->latest()->first();
 
         $user=User::firstWhere('id',$chirp->user_id);
-        Notification::send($user, new ChirpCommented($chirp,$comment_from,$comment_body));
+        Notification::send($user, new ChirpCommented($chirp,$comment_from,$comment_body,$comment));
 
         return back();
     }

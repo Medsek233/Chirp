@@ -10,20 +10,25 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Str;
-class ChirpCommented extends Notification
+class ChirpCommented extends Notification implements ShouldQueue
 {
     use Queueable;
+
+
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(public Chirp $chirp,public $comment_from, public $comment_body)
+    public function __construct(public Chirp $chirp,public $comment_from, public $comment_body,public $comment)
     {
-          $this->comment_from=$comment_from;
-          $this->comment_body=$comment_body;
+        $this->comment_from = $comment_from;
+        $this->comment_body = $comment_body;
+        $this->comment=$comment;
+
     }
+
 
     /**
      * Get the notification's delivery channels.
@@ -49,13 +54,9 @@ class ChirpCommented extends Notification
             ->line("Hello")
             ->line("You Have A New Comment From {$this->comment_from}")
             ->line("You Chirped on {$this->chirp->created_at}:{$this->chirp->body}")
-            ->line("{$this->comment_from} comment:{$this->comment_body}")
+            ->line("{$this->comment_from} comment on {$this->comment->created_at}:{$this->comment_body}")
             ->action('Go to Chirper', url('/'))
             ->line('Thank you for using our application!');
-        //on {$this->chirp->comments()->created_at}
-            //->markdown('mail.comment',with([
-              //  'chirp_msg'=>$this->chirp->body
-            //]));
     }
 
     /**
