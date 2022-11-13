@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Mail\SendEmail;
 use App\Models\Chirp;
 use App\Models\User;
+use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Mail;
 
 class SendEmailController extends Controller
@@ -20,7 +22,7 @@ class SendEmailController extends Controller
     public function create(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
+            'email' => ['required','email',Rule::exists('users','email'),Rule::prohibitedIf(fn()=>request()->email==Auth::user()->email)],
             'subject' => 'required|string|min:3|max:255',
             'message' => 'required',
         ]);
